@@ -74,9 +74,8 @@ class HomeTab extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            RevenueCard(
-              currentMonthRevenue: roomService.getCurrentMonthRevenue(),
-            ),
+
+            RevenueCard(currentMonthRevenue: roomService.getCurrentMonthCollectedRevenue()),
 
             // Upcoming Payment list
             Padding(
