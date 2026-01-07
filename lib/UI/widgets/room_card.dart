@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../domains/models/colors.dart';
+import '../../domains/models/room.dart';
 
 class RoomCard extends StatelessWidget {
-  const RoomCard({
-    super.key,
-    required this.roomNumber,
-    required this.isAvailable,
-  });
+  const RoomCard({super.key, required this.room});
 
-  final String roomNumber;
-  final bool isAvailable;
+  final Room room;
 
-  String get status => isAvailable ? "Available" : "Occupied";
-  Color get statusColor => isAvailable ? Colors.green : Colors.red;
+  String get status => room.isOccupied ? "Occupied" : "Available";
+  Color get statusColor => room.isOccupied ? Colors.red: Colors.green  ;
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +28,17 @@ class RoomCard extends StatelessWidget {
               color: Colors.white,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.meeting_room, color: AppColors.purpleDeep.color, size: 40,),
+            child: Icon(
+              Icons.meeting_room,
+              color: AppColors.purpleDeep.color,
+              size: 40,
+            ),
           ),
 
           const SizedBox(width: 16),
 
           Text(
-            "Room $roomNumber",
+            "Room ${room.roomNumber}",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

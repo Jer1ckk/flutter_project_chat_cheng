@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:project/domains/models/colors.dart';
 
-class UserPaymentStatusCard extends StatelessWidget {
-  const UserPaymentStatusCard({
+class TenantCard extends StatelessWidget {
+  const TenantCard({
     super.key,
     required this.name,
     required this.roomNumber,
-    required this.days,
-    required this.isLate,
+
   });
 
   final String name;
   final String roomNumber;
-  final int days;
-  final bool isLate;
-
-  Color get statusColor => isLate ? Colors.red : Colors.green;
 
   @override
   Widget build(BuildContext context) {
@@ -60,23 +55,6 @@ class UserPaymentStatusCard extends StatelessWidget {
                 style: const TextStyle(fontSize: 14, color: Colors.white),
               ),
             ],
-          ),
-          const Spacer(),
-          Container(
-            width: 80,
-            height: 35,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: statusColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              "$days Days",
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           ),
         ],
       ),

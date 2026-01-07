@@ -1,73 +1,52 @@
 import 'package:flutter/material.dart';
+
 import '../../domains/models/colors.dart';
 
-class PaymentStatusCard extends StatelessWidget {
-  const PaymentStatusCard({
-    super.key,
-    required this.icon,
-    required this.text,
-    required this.roomCount,
-    this.color = Colors.white,
-  });
+class RevenueCard extends StatelessWidget {
+  final double currentMonthRevenue;
 
-  final IconData icon;
-  final String text;
-  final int roomCount;
-  final Color color;
+  const RevenueCard({super.key, required this.currentMonthRevenue});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
-      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.purpleLight.color,
         borderRadius: BorderRadius.circular(20),
       ),
+      padding: const EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-
         children: [
           Row(
             children: [
-              Icon(icon, color: color, size: 30),
-
+              const Icon(Icons.attach_money, size: 50, color: Colors.white),
               const SizedBox(width: 10),
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    text,
+                  const Text(
+                    "Total Revenue",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 20,
                     ),
                   ),
-                  Text(
-                    "Payment",
+                  const Text(
+                    "(This Month)",
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ],
               ),
-
-              const Spacer(),
-
-              const Icon(Icons.error_outline, color: Colors.white, size: 30),
             ],
           ),
-
           const SizedBox(height: 12),
-
           Text(
-            "$roomCount Rooms",
-            style: TextStyle(
+            "\$${currentMonthRevenue.toStringAsFixed(2)}",
+            style: const TextStyle(
               color: Colors.white,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
-              fontSize: 18,
             ),
           ),
         ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -13,9 +12,7 @@ class WelcomeScreen extends StatelessWidget {
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF8D63A6), 
-          ),
+          decoration: const BoxDecoration(color: Color(0xFF8D63A6)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

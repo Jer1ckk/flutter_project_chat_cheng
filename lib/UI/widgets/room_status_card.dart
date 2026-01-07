@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:project/domains/services/rooms_servive.dart';
 import '../../domains/models/colors.dart';
 
 class RoomStatusCard extends StatelessWidget {
-  const RoomStatusCard({super.key, required this.usedRoom});
+  const RoomStatusCard({super.key, required this.roomService});
 
-  final int totalRoom = 50;
-  final int usedRoom;
+  final RoomService roomService;
 
   @override
   Widget build(BuildContext context) {
-    double percent = usedRoom / totalRoom;
+    // Count only tenants with assigned rooms
+    final int usedRoom = roomService.tenants
+        .where((t) => t.roomId != null)
+        .length;
+
+    // Total rooms
+    final int totalRoom = roomService.rooms.length;
+
+    // Avoid divide by zero
+    final double percent = usedRoom / totalRoom;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -54,7 +63,7 @@ class RoomStatusCard extends StatelessWidget {
                     ),
                     // Filled bar
                     FractionallySizedBox(
-                      widthFactor: percent, // width proportional
+                      widthFactor: percent,
                       child: Container(
                         height: 32,
                         decoration: BoxDecoration(
@@ -63,15 +72,13 @@ class RoomStatusCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Percentage Text
+                    // Percentage text
                     Positioned.fill(
                       child: Center(
                         child: Text(
                           "${(percent * 100).round()}%",
                           style: TextStyle(
-                            color: percent > 0.55
-                                ? Colors.white
-                                : Color(0xFF451C64),
+                            color: AppColors.purpleLight.color,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
