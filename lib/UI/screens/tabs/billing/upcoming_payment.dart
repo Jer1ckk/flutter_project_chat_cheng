@@ -3,7 +3,6 @@ import 'package:project/domains/models/colors.dart';
 import '../../../../domains/services/rooms_servive.dart';
 import '../../../widgets/user_payment_status_card.dart';
 
-
 class UpcomingPayment extends StatefulWidget {
   const UpcomingPayment({super.key, required this.roomService});
   final RoomService roomService;
@@ -32,7 +31,10 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upcoming Payments",style: TextStyle(color: Colors.white),),
+        title: const Text(
+          "Upcoming Payments",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: AppColors.purpleDeep.color,
       ),
       body: Container(
@@ -43,7 +45,10 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
             children: [
               // Search bar
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -72,11 +77,13 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                           final diff = payment.dueDate
                               .difference(DateTime.now())
                               .inDays;
-        
+
                           return UserPaymentStatusCard(
                             name: tenant.name,
                             roomNumber:
-                                widget.roomService.getTenantRoomNumber(tenant) ??
+                                widget.roomService.getTenantRoomNumber(
+                                  tenant,
+                                ) ??
                                 "-",
                             days: diff < 0 ? 0 : diff,
                             isLate: false,

@@ -16,24 +16,32 @@ class RoomsStatus extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Row(
                 children: [
-                  Text("45/55", style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
+                  Text(
+                    "45/55",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Spacer(),
                   Text(
                     "10 Rooms Available",
-                    style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
+              child: SingleChildScrollView(child: Column(children: [
 
                   ],
-                ),
-              ),
+                )),
             ),
           ],
         ),

@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:project/UI/screens/home_screen.dart';
-import 'package:project/data/sample/sample_data.dart';
-import 'package:project/domains/services/rooms_servive.dart';
+import 'UI/screens/loading_screen_controller.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  final RoomService roomService = RoomService(
-    payments: samplePayments,
-    tenants: sampleTenants,
-    rooms: sampleRooms,
-  );
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: HomeScreen(roomService: roomService,)),
+      home: LoadingScreenController(),
     );
   }
 }

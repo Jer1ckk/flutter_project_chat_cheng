@@ -41,7 +41,7 @@ class _AvailableRoomsState extends State<AvailableRooms> {
                   ),
                   const Spacer(),
                   Text(
-                    "${availableRooms.length} Rooms Available",
+                    "${availableRooms.length} Available",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 28,
@@ -64,7 +64,6 @@ class _AvailableRoomsState extends State<AvailableRooms> {
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: GestureDetector(
                       onTap: () async {
-                        // Navigate to TenantForm and wait for returned Tenant
                         final tenant = await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -73,10 +72,11 @@ class _AvailableRoomsState extends State<AvailableRooms> {
                         );
 
                         if (tenant != null && tenant is Tenant) {
-                          // Add tenant to RoomService
                           setState(() {
                             widget.roomService.moveInTenant(tenant, room);
                           });
+
+                          await widget.roomService.saveData();
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

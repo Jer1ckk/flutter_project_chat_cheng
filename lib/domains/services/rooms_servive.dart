@@ -1,81 +1,101 @@
+import '../../data/storage/room_local_data_source.dart';
 import '../models/payment.dart';
 import '../models/room.dart';
 import '../models/tenant.dart';
 
 class RoomService {
+  final RoomLocalDataSource localDataSource;
+
+  // All lists are growable
   List<Room> rooms = [];
   List<Tenant> tenants = [];
   List<Payment> payments = [];
 
-  RoomService({
-    required this.payments,
-    required this.tenants,
-    required this.rooms,
-  });
+  RoomService({required this.localDataSource});
 
-  // -----------------------------
-  // Add tenant to a room (Move In)
-  // -----------------------------
-  void moveInTenant(Tenant tenant, Room room) {
+  // =============================
+  // LOAD data from local storage
+  // =============================
+  Future<void> loadData() async {
+    final loaded = await localDataSource.load();
+
+    rooms = loaded.rooms.toList(growable: true);
+    tenants = loaded.tenants.toList(growable: true);
+    payments = loaded.payments.toList(growable: true);
+  }
+
+  // =============================
+  // SAVE data to local storage
+  // =============================
+  Future<void> saveData() async {
+    await localDataSource.save(
+      rooms: rooms,
+      tenants: tenants,
+      payments: payments,
+    );
+  }
+
+  // =============================
+  // ROOM/TENANT operations
+  // =============================
+
+  /// Moves a tenant into a room and creates the first payment
+  Future<void> moveInTenant(Tenant tenant, Room room) async {
     tenant.roomId = room.roomId;
     room.isOccupied = true;
 
-    // Compute next month's due date (same day)
-    final now = DateTime.now();
-    final firstDueDate = _nextMonthDate(now);
+    final firstDueDate = _nextMonthDate(DateTime.now());
 
-    // Create first payment
-    payments.add(
-      Payment(
-        tenantId: tenant.tenantId,
-        roomId: room.roomId,
-        amount: room.rent,
-        dueDate: firstDueDate,
-      ),
-    );
+    payments.add(Payment(
+      tenantId: tenant.tenantId,
+      roomId: room.roomId,
+      amount: room.rent,
+      dueDate: firstDueDate,
+    ));
 
     if (!tenants.contains(tenant)) tenants.add(tenant);
+
+    await saveData(); // persist immediately
   }
 
-  // -----------------------------
-  // Tenant leaves room
-  // -----------------------------
-  void tenantLeaves(Tenant tenant) {
+  /// Tenant leaves a room
+  Future<void> tenantLeaves(Tenant tenant) async {
     if (tenant.roomId == null) return;
-    final room = rooms.firstWhere((r) => r.roomId == tenant.roomId);
-    room.isOccupied = false;
+
+    final room = getRoomById(tenant.roomId);
+    if (room != null) room.isOccupied = false;
     tenant.roomId = null;
+
+    await saveData();
   }
 
-  // -----------------------------
-  // Mark payment as paid and generate next month payment
-  // -----------------------------
-  void payPayment(Payment payment, DateTime paidDate, double totalAmount) {
-    // 1. Set the actual payment amount (rent + utilities)
-    payment.amount = totalAmount;
+  // =============================
+  // PAYMENTS operations
+  // =============================
 
-    // 2. Mark current payment as paid
+  /// Pay a payment and schedule next month
+  Future<void> payPayment(Payment payment, DateTime paidDate, double totalAmount) async {
+    payment.amount = totalAmount;
     payment.markAsPaid(paidDate);
 
-    // 3. Generate next month's payment (same day, default to room rent only)
     final nextDueDate = _nextMonthDate(payment.dueDate);
     final room = getRoomById(payment.roomId);
-    final nextAmount =
-        room?.rent ?? payment.amount; // default next month: rent only
+    final nextAmount = room?.rent ?? payment.amount;
 
-    payments.add(
-      Payment(
-        tenantId: payment.tenantId,
-        roomId: payment.roomId,
-        amount: nextAmount,
-        dueDate: nextDueDate,
-      ),
-    );
+    payments.add(Payment(
+      tenantId: payment.tenantId,
+      roomId: payment.roomId,
+      amount: nextAmount,
+      dueDate: nextDueDate,
+    ));
+
+    await saveData();
   }
 
-  // -----------------------------
-  // Helper: compute next month date safely
-  // -----------------------------
+  // =============================
+  // HELPERS
+  // =============================
+
   DateTime _nextMonthDate(DateTime from) {
     int year = from.year;
     int month = from.month + 1;
@@ -92,74 +112,50 @@ class RoomService {
     return DateTime(year, month, day);
   }
 
-  // -----------------------------
-  // Get all active tenants in a room
-  // -----------------------------
-  List<Tenant> getActiveTenantsInRoom(Room room) {
-    return tenants.where((t) => t.roomId == room.roomId).toList();
-  }
-
-  // -----------------------------
-  // Check room status
-  // -----------------------------
-  bool isRoomOccupied(Room room) => room.isOccupied;
-
-  // -----------------------------
-  // Get room object by roomId
-  // -----------------------------
-  Room? getRoomById(String roomId) {
+  Room? getRoomById(String? roomId) {
+    if (roomId == null) return null;
     try {
       return rooms.firstWhere((r) => r.roomId == roomId);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
 
-  // -----------------------------
-  // Get latest payment for a tenant
-  // -----------------------------
+  List<Tenant> getActiveTenantsInRoom(Room room) =>
+      tenants.where((t) => t.roomId == room.roomId).toList();
+
+  bool isRoomOccupied(Room room) => room.isOccupied;
+
   Payment? getLatestPaymentForTenant(Tenant tenant) {
     final tenantPayments = payments
         .where((p) => p.tenantId == tenant.tenantId)
         .toList();
+
     if (tenantPayments.isEmpty) return null;
+
     tenantPayments.sort((a, b) => b.dueDate.compareTo(a.dueDate));
     return tenantPayments.first;
   }
 
-  // -----------------------------
-  // Get tenant's room number
-  // -----------------------------
   String? getTenantRoomNumber(Tenant tenant) {
-    if (tenant.roomId == null) return null;
-    try {
-      final room = rooms.firstWhere((r) => r.roomId == tenant.roomId);
-      return room.roomNumber;
-    } catch (e) {
-      return null;
-    }
+    final room = getRoomById(tenant.roomId);
+    return room?.roomNumber;
   }
 
   double getCurrentMonthExpectedRevenue() {
     final now = DateTime.now();
-
     return payments
-        .where(
-          (p) => p.dueDate.year == now.year && p.dueDate.month == now.month,
-        )
+        .where((p) => p.dueDate.year == now.year && p.dueDate.month == now.month)
         .fold(0.0, (sum, p) => sum + p.amount);
   }
 
   double getCurrentMonthCollectedRevenue() {
     final now = DateTime.now();
-
     return payments
-        .where(
-          (p) =>
-              p.dueDate.year == now.year &&
-              p.dueDate.month == now.month &&
-              p.paidDate != null,
-        )
+        .where((p) =>
+            p.dueDate.year == now.year &&
+            p.dueDate.month == now.month &&
+            p.paidDate != null)
         .fold(0.0, (sum, p) => sum + p.amount);
   }
 }

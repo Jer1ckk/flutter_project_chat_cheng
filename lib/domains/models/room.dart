@@ -8,7 +8,10 @@ class Room {
   final double rent;
   bool isOccupied;
 
-
-  Room({required this.roomNumber, required this.rent, this.isOccupied = false})
-    : roomId = uuid.v4();
+  Room({
+    String? roomId,
+    required this.roomNumber,
+    required this.rent,
+    this.isOccupied = false,
+  }) : roomId = roomId ?? uuid.v4();
 }

@@ -75,9 +75,14 @@ class HomeTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            RevenueCard(currentMonthRevenue: roomService.getCurrentMonthCollectedRevenue()),
+            RevenueCard(
+              currentMonthRevenue: roomService
+                  .getCurrentMonthCollectedRevenue(),
+            ),
 
             // Upcoming Payment list
+            const SizedBox(height: 10),
+
             Padding(
               padding: const EdgeInsets.only(left: 10, top: 10),
               child: Align(
@@ -88,6 +93,8 @@ class HomeTab extends StatelessWidget {
                 ),
               ),
             ),
+
+            const SizedBox(height: 10),
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,

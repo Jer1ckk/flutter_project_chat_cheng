@@ -3,7 +3,11 @@ import 'package:project/domains/models/tenant.dart';
 import '../../../../domains/models/colors.dart';
 
 class TenantDetail extends StatelessWidget {
-  const TenantDetail({super.key, required this.tenant, required this.roomNumber});
+  const TenantDetail({
+    super.key,
+    required this.tenant,
+    required this.roomNumber,
+  });
   final Tenant tenant;
   final String roomNumber;
 
@@ -15,7 +19,10 @@ class TenantDetail extends StatelessWidget {
       backgroundColor: AppColors.purpleDeep.color,
       appBar: AppBar(
         backgroundColor: AppColors.purpleDeep.color,
-        title: const Text("Tenant Detail"),
+        title: const Text(
+          "Tenant Detail",
+          style: TextStyle(color: Colors.white, fontSize: 26),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

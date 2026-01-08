@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project/domains/models/colors.dart';
 import 'package:project/domains/services/rooms_servive.dart';
 import '../../../widgets/tenant_card.dart';
-import '../billing/calculate_bill.dart';
 import 'tenant_detail.dart';
 
 class TenantScreen extends StatefulWidget {
@@ -78,7 +77,6 @@ class _TenantScreenState extends State<TenantScreen> {
                       itemCount: filteredTenants.length,
                       itemBuilder: (context, index) {
                         final tenant = filteredTenants[index];
-
 
                         return GestureDetector(
                           onTap: () {

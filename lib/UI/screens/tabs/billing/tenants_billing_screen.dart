@@ -96,23 +96,22 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                           onTap: latestPayment == null
                               ? null
                               : () async {
-                                  final room = widget.roomService
-                                      .getRoomById(tenant.roomId!);
+                                  final room = widget.roomService.getRoomById(
+                                    tenant.roomId!,
+                                  );
                                   if (room == null) return;
-
 
                                   final double? total =
                                       await Navigator.push<double>(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => CalculateBill(
-                                        roomRent: room.rent,
-                                        name: tenant.name,
-                                      ),
-                                    ),
-                                  );
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => CalculateBill(
+                                            roomRent: room.rent,
+                                            name: tenant.name,
+                                          ),
+                                        ),
+                                      );
 
- 
                                   if (total != null) {
                                     setState(() {
                                       widget.roomService.payPayment(
@@ -121,12 +120,17 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                                         total,
                                       );
                                     });
+
+                                    // Save changes to file
+                                    await widget.roomService.saveData();
                                   }
                                 },
                           child: UserPaymentStatusCard(
                             name: tenant.name,
-                            roomNumber: widget.roomService
-                                    .getTenantRoomNumber(tenant) ??
+                            roomNumber:
+                                widget.roomService.getTenantRoomNumber(
+                                  tenant,
+                                ) ??
                                 "-",
                             days: days,
                             isLate: isLate,

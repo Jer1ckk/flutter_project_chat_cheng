@@ -7,11 +7,7 @@ import '../../../widgets/billing_card/total_cost_card.dart';
 import '../../../widgets/billing_card/water_cost_card.dart';
 
 class CalculateBill extends StatefulWidget {
-  const CalculateBill({
-    super.key,
-    required this.roomRent,
-    required this.name,
-  });
+  const CalculateBill({super.key, required this.roomRent, required this.name});
 
   final double roomRent;
   final String name;
@@ -40,15 +36,18 @@ class _CalculateBillState extends State<CalculateBill> {
   }
 
   double get totalAmount =>
-      widget.roomRent + electricityUsed * electricityRate + waterUsed * waterRate;
+      widget.roomRent +
+      electricityUsed * electricityRate +
+      waterUsed * waterRate;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Calculate Bill", style: TextStyle(
-          color: Colors.white
-        ),),
+        title: const Text(
+          "Calculate Bill",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: AppColors.purpleDeep.color,
       ),
       body: Container(
@@ -79,7 +78,7 @@ class _CalculateBillState extends State<CalculateBill> {
                   ),
                 ),
                 const SizedBox(height: 16),
-        
+
                 // Tenant Name
                 Text(
                   widget.name,
@@ -90,13 +89,19 @@ class _CalculateBillState extends State<CalculateBill> {
                   ),
                 ),
                 const SizedBox(height: 16),
-        
+
                 // Billing cards
                 RentPriceCard(price: widget.roomRent),
                 const SizedBox(height: 8),
-                ElectricityCostCard(ratePerKwh: electricityRate, onChanged: updateElectricity),
+                ElectricityCostCard(
+                  ratePerKwh: electricityRate,
+                  onChanged: updateElectricity,
+                ),
                 const SizedBox(height: 8),
-                WaterCostCard(ratePerCubicMeter: waterRate, onChanged: updateWater),
+                WaterCostCard(
+                  ratePerCubicMeter: waterRate,
+                  onChanged: updateWater,
+                ),
                 const SizedBox(height: 8),
                 TotalCostCard(
                   rent: widget.roomRent,
@@ -104,7 +109,7 @@ class _CalculateBillState extends State<CalculateBill> {
                   water: waterUsed * waterRate,
                 ),
                 const SizedBox(height: 16),
-        
+
                 // Confirm button
                 ElevatedButton(
                   onPressed: () {
@@ -113,14 +118,21 @@ class _CalculateBillState extends State<CalculateBill> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.purpleDeep.color,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   child: const Text(
                     "Mark Paid",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

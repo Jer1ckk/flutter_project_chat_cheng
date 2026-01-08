@@ -12,27 +12,25 @@ class Payment {
   DateTime? paidDate;
 
   Payment({
+    String? paymentId,
     required this.tenantId,
     required this.roomId,
     required this.amount,
     required this.dueDate,
     this.isPaid = false,
     this.paidDate,
-  }) : paymentId = uuid.v4();
+  }) : paymentId = paymentId ?? uuid.v4();
 
   int _lateDays = 0;
 
-  /// Mark the payment as paid and calculate late days
   void markAsPaid(DateTime date) {
     paidDate = date;
     _lateDays = date.isAfter(dueDate) ? date.difference(dueDate).inDays : 0;
     isPaid = true;
   }
 
-  /// Returns true if payment is past due and not yet paid
   bool get isLate => !isPaid && DateTime.now().isAfter(dueDate);
 
-  /// Returns number of days late if paid, or days past due if not paid
   int get daysLate {
     if (isPaid) return _lateDays;
     if (DateTime.now().isAfter(dueDate)) {
@@ -41,7 +39,6 @@ class Payment {
     return 0;
   }
 
-  /// Returns number of days until payment is due (0 if past due)
   int get daysUntilDue {
     final diff = dueDate.difference(DateTime.now()).inDays;
     return diff < 0 ? 0 : diff;

@@ -9,9 +9,14 @@ import 'tabs/billing/tenants_billing_screen.dart';
 import 'tabs/tenant/tenant_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.roomService});
+  const HomeScreen({
+    super.key,
+    required this.roomService,
+    required this.onSave,
+  });
 
   final RoomService roomService;
+  final Future<void> Function() onSave;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

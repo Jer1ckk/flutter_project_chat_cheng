@@ -14,14 +14,16 @@ class Tenant {
   String? roomId;
 
   Tenant({
+    String? tenantId,
     required this.name,
     required this.phoneNumber,
     this.roomId,
     required this.moveInDate,
     required this.reserveMoney,
     required this.idCardNumber,
-    required this.dateOfBirth, required this.sex,
-  }) : tenantId = uuid.v4();
+    required this.dateOfBirth,
+    required this.sex,
+  }) : tenantId = tenantId ?? uuid.v4();
 
   void leave() {
     roomId = null;

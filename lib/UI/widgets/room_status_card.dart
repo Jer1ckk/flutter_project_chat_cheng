@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/domains/services/rooms_servive.dart';
+
 import '../../domains/models/colors.dart';
 
 class RoomStatusCard extends StatelessWidget {
@@ -9,16 +10,10 @@ class RoomStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Count only tenants with assigned rooms
-    final int usedRoom = roomService.tenants
-        .where((t) => t.roomId != null)
-        .length;
-
-    // Total rooms
     final int totalRoom = roomService.rooms.length;
+    final int usedRoom = roomService.tenants.where((t) => t.roomId != null).length;
 
-    // Avoid divide by zero
-    final double percent = usedRoom / totalRoom;
+    final double percent = totalRoom == 0 ? 0.0 : (usedRoom / totalRoom).clamp(0.0, 1.0);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -53,7 +48,6 @@ class RoomStatusCard extends StatelessWidget {
               Expanded(
                 child: Stack(
                   children: [
-                    // Background bar
                     Container(
                       height: 32,
                       decoration: BoxDecoration(
@@ -61,7 +55,6 @@ class RoomStatusCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    // Filled bar
                     FractionallySizedBox(
                       widthFactor: percent,
                       child: Container(
@@ -72,7 +65,6 @@ class RoomStatusCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Percentage text
                     Positioned.fill(
                       child: Center(
                         child: Text(

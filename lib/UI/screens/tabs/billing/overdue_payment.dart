@@ -20,12 +20,26 @@ class _OverduePaymentState extends State<OverduePayment> {
     });
   }
 
+  // Function to check if payment is late
+  bool isPaymentLate(dynamic payment) {
+    if (payment.isPaid) return false;
+    final now = DateTime.now();
+    return payment.dueDate.isBefore(now) || payment.dueDate.isAtSameMomentAs(now);
+  }
+
+  // Function to calculate days late
+  int daysLate(dynamic payment) {
+    if (!isPaymentLate(payment)) return 0;
+    return DateTime.now().difference(payment.dueDate).inDays;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Filter tenants with overdue payments
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       final payment = widget.roomService.getLatestPaymentForTenant(tenant);
       return payment != null &&
-          payment.isLate &&
+          isPaymentLate(payment) &&
           tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
 
@@ -45,10 +59,7 @@ class _OverduePaymentState extends State<OverduePayment> {
             children: [
               // Search bar
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -72,20 +83,12 @@ class _OverduePaymentState extends State<OverduePayment> {
                         itemCount: filteredTenants.length,
                         itemBuilder: (context, index) {
                           final tenant = filteredTenants[index];
-                          final payment = widget.roomService
-                              .getLatestPaymentForTenant(tenant)!;
-                          final diff = payment.dueDate
-                              .difference(DateTime.now())
-                              .inDays;
+                          final payment = widget.roomService.getLatestPaymentForTenant(tenant)!;
 
                           return UserPaymentStatusCard(
                             name: tenant.name,
-                            roomNumber:
-                                widget.roomService.getTenantRoomNumber(
-                                  tenant,
-                                ) ??
-                                "-",
-                            days: diff < 0 ? 0 : diff,
+                            roomNumber: widget.roomService.getTenantRoomNumber(tenant) ?? "-",
+                            days: daysLate(payment),
                             isLate: true,
                           );
                         },
