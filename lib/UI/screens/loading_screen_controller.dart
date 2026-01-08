@@ -14,7 +14,6 @@ class LoadingScreenController extends StatefulWidget {
 
 class _LoadingScreenControllerState extends State<LoadingScreenController> {
   bool _showWelcome = true;
-  bool _isLoading = true;
 
   late RoomService roomService;
   late RoomLocalDataSource dataSource;
@@ -30,20 +29,16 @@ class _LoadingScreenControllerState extends State<LoadingScreenController> {
 
   Future<void> _loadData() async {
     try {
-      await roomService.loadData(); 
+      await roomService.loadData();
     } catch (e) {
       roomService.rooms = [];
       roomService.tenants = [];
       roomService.payments = [];
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   Future<void> _saveData() async {
-    await roomService.saveData(); 
+    await roomService.saveData();
   }
 
   void _onGetStarted() {
