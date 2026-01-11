@@ -2,44 +2,35 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../domains/models/payment.dart';
 import '../../domains/models/room.dart';
 import '../../domains/models/tenant.dart';
-import '../../domains/models/payment.dart';
 
 class RoomLocalDataSource {
-  static const String _assetPath = 'assets/testing_data.json';
+  static const String _assetPath = 'assets/data.json';
 
-  /// Get the file in the device documents directory
   Future<File> _getLocalFile() async {
     final dir = await getApplicationDocumentsDirectory();
     return File('${dir.path}/room_data.json');
   }
 
-  /// Load saved data if exists, otherwise fallback to asset
   Future<LoadedRoomData> load() async {
     try {
       final file = await _getLocalFile();
       if (await file.exists()) {
-        final content = await file.readAsString();
-        final json = jsonDecode(content);
-        return _parseJsonData(json);
+        final json = jsonDecode(await file.readAsString());
+        return _parse(json);
       }
-    } catch (_) {
-      // ignore errors, fallback to asset
-    }
+    } catch (_) {}
 
-    // fallback to asset if file doesn't exist or error occurs
     try {
-      final content = await rootBundle.loadString(_assetPath);
-      final json = jsonDecode(content);
-      return _parseJsonData(json);
+      final json = jsonDecode(await rootBundle.loadString(_assetPath));
+      return _parse(json);
     } catch (_) {
-      // final fallback: empty lists
       return LoadedRoomData(rooms: [], tenants: [], payments: []);
     }
   }
 
-  /// Save data to local file
   Future<void> save({
     required List<Room> rooms,
     required List<Tenant> tenants,
@@ -47,18 +38,17 @@ class RoomLocalDataSource {
   }) async {
     final file = await _getLocalFile();
 
-    final data = jsonEncode({
-      'rooms': rooms.map((r) => _roomToJson(r)).toList(),
-      'tenants': tenants.map((t) => _tenantToJson(t)).toList(),
-      'payments': payments.map((p) => _paymentToJson(p)).toList(),
-    });
-
-    await file.writeAsString(data);
+    await file.writeAsString(jsonEncode({
+      'rooms': rooms.map(_roomToJson).toList(),
+      'tenants': tenants.map(_tenantToJson).toList(),
+      'payments': payments.map(_paymentToJson).toList(),
+    }));
   }
 
-  /// =======================
-  /// JSON serialization
-  /// =======================
+  // =============================
+  // JSON helpers
+  // =============================
+
   Map<String, dynamic> _roomToJson(Room r) => {
         'roomId': r.roomId,
         'roomNumber': r.roomNumber,
@@ -66,11 +56,11 @@ class RoomLocalDataSource {
         'isOccupied': r.isOccupied,
       };
 
-  Room _roomFromJson(Map<String, dynamic> json) => Room(
-        roomId: json['roomId'],
-        roomNumber: json['roomNumber'],
-        rent: (json['rent'] as num).toDouble(),
-        isOccupied: json['isOccupied'] ?? false,
+  Room _roomFromJson(Map<String, dynamic> j) => Room(
+        roomId: j['roomId'],
+        roomNumber: j['roomNumber'],
+        rent: (j['rent'] as num).toDouble(),
+        isOccupied: j['isOccupied'] ?? false,
       );
 
   Map<String, dynamic> _tenantToJson(Tenant t) => {
@@ -85,16 +75,16 @@ class RoomLocalDataSource {
         'roomId': t.roomId,
       };
 
-  Tenant _tenantFromJson(Map<String, dynamic> json) => Tenant(
-        tenantId: json['tenantId'],
-        name: json['name'],
-        sex: json['sex'],
-        phoneNumber: json['phoneNumber'],
-        idCardNumber: json['idCardNumber'],
-        dateOfBirth: DateTime.parse(json['dateOfBirth']),
-        moveInDate: DateTime.parse(json['moveInDate']),
-        reserveMoney: (json['reserveMoney'] as num).toDouble(),
-        roomId: json['roomId'],
+  Tenant _tenantFromJson(Map<String, dynamic> j) => Tenant(
+        tenantId: j['tenantId'],
+        name: j['name'],
+        sex: j['sex'],
+        phoneNumber: j['phoneNumber'],
+        idCardNumber: j['idCardNumber'],
+        dateOfBirth: DateTime.parse(j['dateOfBirth']),
+        moveInDate: DateTime.parse(j['moveInDate']),
+        reserveMoney: (j['reserveMoney'] as num).toDouble(),
+        roomId: j['roomId'],
       );
 
   Map<String, dynamic> _paymentToJson(Payment p) => {
@@ -107,33 +97,27 @@ class RoomLocalDataSource {
         'paidDate': p.paidDate?.toIso8601String(),
       };
 
-  Payment _paymentFromJson(Map<String, dynamic> json) => Payment(
-        paymentId: json['paymentId'],
-        tenantId: json['tenantId'],
-        roomId: json['roomId'],
-        amount: (json['amount'] as num).toDouble(),
-        dueDate: DateTime.parse(json['dueDate']),
-        isPaid: json['isPaid'] ?? false,
-        paidDate: json['paidDate'] != null
-            ? DateTime.parse(json['paidDate'])
+  Payment _paymentFromJson(Map<String, dynamic> j) => Payment(
+        paymentId: j['paymentId'],
+        tenantId: j['tenantId'],
+        roomId: j['roomId'],
+        amount: (j['amount'] as num).toDouble(),
+        dueDate: DateTime.parse(j['dueDate']),
+        isPaid: j['isPaid'] ?? false,
+        paidDate: j['paidDate'] != null
+            ? DateTime.parse(j['paidDate'])
             : null,
       );
 
-  /// Parse full loaded JSON
-  LoadedRoomData _parseJsonData(Map<String, dynamic> json) {
-    final rooms = (json['rooms'] as List<dynamic>? ?? [])
-        .map((r) => _roomFromJson(r as Map<String, dynamic>))
-        .toList(growable: true);
-
-    final tenants = (json['tenants'] as List<dynamic>? ?? [])
-        .map((t) => _tenantFromJson(t as Map<String, dynamic>))
-        .toList(growable: true);
-
-    final payments = (json['payments'] as List<dynamic>? ?? [])
-        .map((p) => _paymentFromJson(p as Map<String, dynamic>))
-        .toList(growable: true);
-
-    return LoadedRoomData(rooms: rooms, tenants: tenants, payments: payments);
+  LoadedRoomData _parse(Map<String, dynamic> json) {
+    return LoadedRoomData(
+      rooms: (json['rooms'] ?? []).map<Room>((r) => _roomFromJson(r)).toList(),
+      tenants:
+          (json['tenants'] ?? []).map<Tenant>((t) => _tenantFromJson(t)).toList(),
+      payments: (json['payments'] ?? [])
+          .map<Payment>((p) => _paymentFromJson(p))
+          .toList(),
+    );
   }
 }
 

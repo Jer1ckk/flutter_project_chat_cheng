@@ -22,10 +22,11 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
 
   @override
   Widget build(BuildContext context) {
+    // Filter tenants with upcoming payments
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       final payment = widget.roomService.getLatestPaymentForTenant(tenant);
       return payment != null &&
-          !payment.isLate &&
+          !widget.roomService.isPaymentLate(payment) && // use service method
           tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
 
@@ -39,60 +40,60 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
       ),
       body: Container(
         color: AppColors.purpleDeep.color,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              // Search bar
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(),
-                ),
-                child: TextField(
-                  onChanged: _onSearchChanged,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                    hintText: "Search tenants...",
-                    border: InputBorder.none,
-                  ),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            // Search bar
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(),
+              ),
+              child: TextField(
+                onChanged: _onSearchChanged,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.search),
+                  hintText: "Search tenants...",
+                  border: InputBorder.none,
                 ),
               ),
-              const SizedBox(height: 10),
-              // List
-              Expanded(
-                child: filteredTenants.isEmpty
-                    ? const Center(child: Text("No upcoming payments"))
-                    : ListView.builder(
-                        itemCount: filteredTenants.length,
-                        itemBuilder: (context, index) {
-                          final tenant = filteredTenants[index];
-                          final payment = widget.roomService
-                              .getLatestPaymentForTenant(tenant)!;
-                          final diff = payment.dueDate
-                              .difference(DateTime.now())
-                              .inDays;
+            ),
+            const SizedBox(height: 10),
 
-                          return UserPaymentStatusCard(
-                            name: tenant.name,
-                            roomNumber:
-                                widget.roomService.getTenantRoomNumber(
-                                  tenant,
-                                ) ??
-                                "-",
-                            days: diff < 0 ? 0 : diff,
-                            isLate: false,
-                          );
-                        },
+            // Tenant list
+            Expanded(
+              child: filteredTenants.isEmpty
+                  ? const Center(
+                      child: Text(
+                        "No upcoming payments",
+                        style: TextStyle(color: Colors.white),
                       ),
-              ),
-            ],
-          ),
+                    )
+                  : ListView.builder(
+                      itemCount: filteredTenants.length,
+                      itemBuilder: (context, index) {
+                        final tenant = filteredTenants[index];
+                        final payment = widget.roomService
+                            .getLatestPaymentForTenant(tenant)!;
+
+                        final daysUntilDue = widget.roomService.daysUntilDue(
+                          payment,
+                        );
+
+                        return UserPaymentStatusCard(
+                          name: tenant.name,
+                          roomNumber:
+                              widget.roomService.getTenantRoomNumber(tenant) ??
+                              "-",
+                          days: daysUntilDue,
+                          isLate: false,
+                        );
+                      },
+                    ),
+            ),
+          ],
         ),
       ),
     );

@@ -42,9 +42,9 @@ class _TenantScreenState extends State<TenantScreen> {
       body: Container(
         color: AppColors.purpleDeep.color,
         padding: const EdgeInsets.all(8.0),
+      
         child: Column(
           children: [
-            // Search bar
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
@@ -64,7 +64,6 @@ class _TenantScreenState extends State<TenantScreen> {
 
             const SizedBox(height: 10),
 
-            // List
             Expanded(
               child: filteredTenants.isEmpty
                   ? const Center(
@@ -105,6 +104,7 @@ class _TenantScreenState extends State<TenantScreen> {
                         );
                       },
                     ),
+                    
             ),
           ],
         ),

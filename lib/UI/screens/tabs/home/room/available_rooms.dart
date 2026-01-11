@@ -6,8 +6,14 @@ import '../../../../../domains/models/tenant.dart';
 import '../../tenant/tenant_form.dart';
 
 class AvailableRooms extends StatefulWidget {
-  const AvailableRooms({super.key, required this.roomService});
+  const AvailableRooms({
+    super.key,
+    required this.roomService,
+    required this.onSave,
+  });
+
   final RoomService roomService;
+  final Future<void> Function() onSave;
 
   @override
   State<AvailableRooms> createState() => _AvailableRoomsState();
@@ -16,9 +22,8 @@ class AvailableRooms extends StatefulWidget {
 class _AvailableRoomsState extends State<AvailableRooms> {
   @override
   Widget build(BuildContext context) {
-    final availableRooms = widget.roomService.rooms
-        .where((room) => !room.isOccupied)
-        .toList();
+    final availableRooms = widget.roomService.getAvailableRooms();
+    final totalRooms = widget.roomService.rooms.length;
 
     return Container(
       color: AppColors.purpleDeep.color,
@@ -32,7 +37,7 @@ class _AvailableRoomsState extends State<AvailableRooms> {
               child: Row(
                 children: [
                   Text(
-                    "${widget.roomService.rooms.length - availableRooms.length}/${widget.roomService.rooms.length}",
+                    "${totalRooms - availableRooms.length}/$totalRooms",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 28,
@@ -76,7 +81,7 @@ class _AvailableRoomsState extends State<AvailableRooms> {
                             widget.roomService.moveInTenant(tenant, room);
                           });
 
-                          await widget.roomService.saveData();
+                          await widget.onSave();
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

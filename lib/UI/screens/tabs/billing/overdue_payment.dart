@@ -20,26 +20,12 @@ class _OverduePaymentState extends State<OverduePayment> {
     });
   }
 
-  // Function to check if payment is late
-  bool isPaymentLate(dynamic payment) {
-    if (payment.isPaid) return false;
-    final now = DateTime.now();
-    return payment.dueDate.isBefore(now) || payment.dueDate.isAtSameMomentAs(now);
-  }
-
-  // Function to calculate days late
-  int daysLate(dynamic payment) {
-    if (!isPaymentLate(payment)) return 0;
-    return DateTime.now().difference(payment.dueDate).inDays;
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Filter tenants with overdue payments
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       final payment = widget.roomService.getLatestPaymentForTenant(tenant);
       return payment != null &&
-          isPaymentLate(payment) &&
+          widget.roomService.isPaymentLate(payment) &&
           tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
 
@@ -53,49 +39,55 @@ class _OverduePaymentState extends State<OverduePayment> {
       ),
       body: Container(
         color: AppColors.purpleDeep.color,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              // Search bar
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(),
-                ),
-                child: TextField(
-                  onChanged: _onSearchChanged,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                    hintText: "Search tenants...",
-                    border: InputBorder.none,
-                  ),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(),
+              ),
+              child: TextField(
+                onChanged: _onSearchChanged,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.search),
+                  hintText: "Search tenants...",
+                  border: InputBorder.none,
                 ),
               ),
-              const SizedBox(height: 10),
-              // List
-              Expanded(
-                child: filteredTenants.isEmpty
-                    ? const Center(child: Text("No overdue payments"))
-                    : ListView.builder(
-                        itemCount: filteredTenants.length,
-                        itemBuilder: (context, index) {
-                          final tenant = filteredTenants[index];
-                          final payment = widget.roomService.getLatestPaymentForTenant(tenant)!;
+            ),
+            const SizedBox(height: 10),
 
-                          return UserPaymentStatusCard(
-                            name: tenant.name,
-                            roomNumber: widget.roomService.getTenantRoomNumber(tenant) ?? "-",
-                            days: daysLate(payment),
-                            isLate: true,
-                          );
-                        },
+            // Tenant list
+            Expanded(
+              child: filteredTenants.isEmpty
+                  ? const Center(
+                      child: Text(
+                        "No overdue payments",
+                        style: TextStyle(color: Colors.white),
                       ),
-              ),
-            ],
-          ),
+                    )
+                  : ListView.builder(
+                      itemCount: filteredTenants.length,
+                      itemBuilder: (context, index) {
+                        final tenant = filteredTenants[index];
+                        final payment = widget.roomService
+                            .getLatestPaymentForTenant(tenant)!;
+
+                        return UserPaymentStatusCard(
+                          name: tenant.name,
+                          roomNumber:
+                              widget.roomService.getTenantRoomNumber(tenant) ??
+                              "-",
+                          days: widget.roomService.daysLate(payment),
+                          isLate: true,
+                        );
+                      },
+                    ),
+            ),
+          ],
         ),
       ),
     );

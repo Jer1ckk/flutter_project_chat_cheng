@@ -2,20 +2,21 @@ import '../../domains/services/rooms_servive.dart';
 import 'room_local_data_source.dart';
 
 class RoomDataManager {
-  final RoomLocalDataSource localDataSource;
+  final RoomLocalDataSource dataSource;
 
-  RoomDataManager({required this.localDataSource});
+  RoomDataManager({required this.dataSource});
 
-  Future<RoomService> loadRoomService() async {
-    final loaded = await localDataSource.load();
-    return RoomService(localDataSource: localDataSource)
-      ..rooms = loaded.rooms
-      ..tenants = loaded.tenants
-      ..payments = loaded.payments;
+  Future<RoomService> loadService() async {
+    final data = await dataSource.load();
+    return RoomService(
+      rooms: data.rooms,
+      tenants: data.tenants,
+      payments: data.payments,
+    );
   }
 
-  Future<void> saveRoomService(RoomService service) async {
-    await localDataSource.save(
+  Future<void> save(RoomService service) async {
+    await dataSource.save(
       rooms: service.rooms,
       tenants: service.tenants,
       payments: service.payments,

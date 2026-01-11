@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/UI/screens/welcome_screen.dart';
-import 'package:project/UI/screens/home_screen.dart';
-import 'package:project/domains/services/rooms_servive.dart';
+import '../../data/storage/data_manager.dart';
 import '../../data/storage/room_local_data_source.dart';
+import '../../domains/services/rooms_servive.dart';
+import '../screens/home_screen.dart';
+import '../screens/welcome_screen.dart';
 
 class LoadingScreenController extends StatefulWidget {
   const LoadingScreenController({super.key});
@@ -16,40 +17,36 @@ class _LoadingScreenControllerState extends State<LoadingScreenController> {
   bool _showWelcome = true;
 
   late RoomService roomService;
-  late RoomLocalDataSource dataSource;
+  late RoomDataManager dataManager;
 
   @override
   void initState() {
     super.initState();
-
-    dataSource = RoomLocalDataSource();
-    roomService = RoomService(localDataSource: dataSource);
-    _loadData();
+    _init();
   }
 
-  Future<void> _loadData() async {
-    try {
-      await roomService.loadData();
-    } catch (e) {
-      roomService.rooms = [];
-      roomService.tenants = [];
-      roomService.payments = [];
-    }
+  Future<void> _init() async {
+    dataManager = RoomDataManager(dataSource: RoomLocalDataSource());
+
+    roomService = await dataManager.loadService();
+
+    setState(() {});
   }
 
-  Future<void> _saveData() async {
-    await roomService.saveData();
+  Future<void> _save() async {
+    await dataManager.save(roomService);
   }
 
   void _onGetStarted() {
-    setState(() {
-      _showWelcome = false;
-    });
+    setState(() => _showWelcome = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_showWelcome) return WelcomeScreen(onGetStarted: _onGetStarted);
-    return HomeScreen(roomService: roomService, onSave: _saveData);
+    if (_showWelcome) {
+      return WelcomeScreen(onGetStarted: _onGetStarted);
+    }
+
+    return HomeScreen(roomService: roomService, onSave: _save);
   }
 }

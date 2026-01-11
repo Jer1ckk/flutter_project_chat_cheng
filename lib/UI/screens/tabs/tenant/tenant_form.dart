@@ -178,7 +178,6 @@ class _TenantFormState extends State<TenantForm> {
                 onChanged: _onReserveChanged,
               ),
               const SizedBox(height: 12),
-              // SEX DROPDOWN
               DropdownButtonFormField<String>(
                 value: sex,
                 dropdownColor: Colors.white,

@@ -6,8 +6,14 @@ import '../../../widgets/user_payment_status_card.dart';
 import '../billing/calculate_bill.dart';
 
 class TenantsBillingScreen extends StatefulWidget {
-  const TenantsBillingScreen({super.key, required this.roomService});
+  const TenantsBillingScreen({
+    super.key,
+    required this.roomService,
+    required this.onSave,
+  });
+
   final RoomService roomService;
+  final Future<void> Function() onSave;
 
   @override
   State<TenantsBillingScreen> createState() => _TenantsBillingScreenState();
@@ -22,16 +28,9 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
     });
   }
 
-  // Helper to determine days and late status
-  Map<String, dynamic> _getPaymentStatus(Payment? payment) {
-    if (payment == null) return {'days': 0, 'isLate': false};
-    if (payment.isLate) return {'days': payment.daysLate, 'isLate': true};
-    final diff = payment.dueDate.difference(DateTime.now()).inDays;
-    return {'days': diff < 0 ? 0 : diff, 'isLate': false};
-  }
-
   @override
   Widget build(BuildContext context) {
+    // Filter tenants by search query
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       return tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
@@ -88,9 +87,13 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                         final latestPayment = widget.roomService
                             .getLatestPaymentForTenant(tenant);
 
-                        final status = _getPaymentStatus(latestPayment);
-                        final int days = status['days'];
-                        final bool isLate = status['isLate'];
+                        final int days = latestPayment == null
+                            ? 0
+                            : widget.roomService.daysLate(latestPayment);
+
+                        final bool isLate = latestPayment == null
+                            ? false
+                            : widget.roomService.isPaymentLate(latestPayment);
 
                         return GestureDetector(
                           onTap: latestPayment == null
@@ -121,8 +124,15 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                                       );
                                     });
 
-                                    // Save changes to file
-                                    await widget.roomService.saveData();
+                                    await widget.onSave();
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "${tenant.name} payment recorded: \$${total.toStringAsFixed(2)}",
+                                        ),
+                                      ),
+                                    );
                                   }
                                 },
                           child: UserPaymentStatusCard(

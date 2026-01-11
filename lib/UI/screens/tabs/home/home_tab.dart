@@ -7,6 +7,7 @@ import '../../../widgets/room_status_card.dart';
 import '../../../widgets/user_payment_status_card.dart';
 import '../billing/overdue_payment.dart';
 import '../billing/upcoming_payment.dart';
+import 'room/rooms_status.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key, required this.roomService});
@@ -14,15 +15,8 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final upcomingCount = roomService.tenants.where((tenant) {
-      final payment = roomService.getLatestPaymentForTenant(tenant);
-      return payment != null && !payment.isLate;
-    }).length;
-
-    final overdueCount = roomService.tenants.where((tenant) {
-      final payment = roomService.getLatestPaymentForTenant(tenant);
-      return payment != null && payment.isLate;
-    }).length;
+    final upcomingCount = roomService.getCurrentMonthUpcomingCount();
+    final overdueCount = roomService.getOverdueCount();
 
     return Container(
       decoration: BoxDecoration(color: AppColors.purpleDeep.color),
@@ -30,12 +24,21 @@ class HomeTab extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            RoomStatusCard(roomService: roomService),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RoomsStatus(rooms: roomService.rooms),
+                  ),
+                );
+              },
+              child: RoomStatusCard(roomService: roomService),
+            ),
             const SizedBox(height: 10),
 
             Row(
               children: [
-                // Upcoming
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -53,7 +56,6 @@ class HomeTab extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                // Overdue
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -79,8 +81,6 @@ class HomeTab extends StatelessWidget {
               currentMonthRevenue: roomService
                   .getCurrentMonthCollectedRevenue(),
             ),
-
-            // Upcoming Payment list
             const SizedBox(height: 10),
 
             Padding(
@@ -89,12 +89,12 @@ class HomeTab extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Upcoming Payment",
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+                  style: const TextStyle(color: Colors.white, fontSize: 22),
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
+
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,

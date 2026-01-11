@@ -32,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pages = [
       HomeTab(roomService: widget.roomService),
-      AvailableRooms(roomService: widget.roomService),
-      TenantsBillingScreen(roomService: widget.roomService),
+      AvailableRooms(roomService: widget.roomService, onSave: widget.onSave,),
+      TenantsBillingScreen(roomService: widget.roomService, onSave: widget.onSave,),
       TenantScreen(roomService: widget.roomService),
     ];
   }

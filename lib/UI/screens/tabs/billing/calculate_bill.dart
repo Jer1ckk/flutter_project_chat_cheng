@@ -63,7 +63,7 @@ class _CalculateBillState extends State<CalculateBill> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Avatar
+
                 Container(
                   height: 100,
                   width: 100,
@@ -79,7 +79,6 @@ class _CalculateBillState extends State<CalculateBill> {
                 ),
                 const SizedBox(height: 16),
 
-                // Tenant Name
                 Text(
                   widget.name,
                   style: const TextStyle(
@@ -90,7 +89,6 @@ class _CalculateBillState extends State<CalculateBill> {
                 ),
                 const SizedBox(height: 16),
 
-                // Billing cards
                 RentPriceCard(price: widget.roomRent),
                 const SizedBox(height: 8),
                 ElectricityCostCard(
@@ -110,10 +108,8 @@ class _CalculateBillState extends State<CalculateBill> {
                 ),
                 const SizedBox(height: 16),
 
-                // Confirm button
                 ElevatedButton(
                   onPressed: () {
-                    // Return total amount to previous screen
                     Navigator.pop(context, totalAmount);
                   },
                   style: ElevatedButton.styleFrom(
