@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/domains/models/colors.dart';
 import 'package:project/domains/services/rooms_servive.dart';
-import '../../../../domains/models/payment.dart';
 import '../../../widgets/user_payment_status_card.dart';
 import '../billing/calculate_bill.dart';
 
