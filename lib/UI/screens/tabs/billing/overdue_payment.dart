@@ -5,6 +5,7 @@ import '../../../widgets/user_payment_status_card.dart';
 
 class OverduePayment extends StatefulWidget {
   const OverduePayment({super.key, required this.roomService});
+
   final RoomService roomService;
 
   @override
@@ -25,7 +26,7 @@ class _OverduePaymentState extends State<OverduePayment> {
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       final payment = widget.roomService.getLatestPaymentForTenant(tenant);
       return payment != null &&
-          widget.roomService.isPaymentLate(payment) &&
+          payment.isLate &&
           tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
 
@@ -42,6 +43,7 @@ class _OverduePaymentState extends State<OverduePayment> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            // Search bar
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
@@ -81,7 +83,7 @@ class _OverduePaymentState extends State<OverduePayment> {
                           roomNumber:
                               widget.roomService.getTenantRoomNumber(tenant) ??
                               "-",
-                          days: widget.roomService.daysLate(payment),
+                          days: payment.daysLate,
                           isLate: true,
                         );
                       },

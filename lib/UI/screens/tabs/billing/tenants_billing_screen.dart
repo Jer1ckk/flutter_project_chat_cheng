@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/domains/models/colors.dart';
-import 'package:project/domains/services/rooms_servive.dart';
+import '../../../../domains/services/rooms_servive.dart';
 import '../../../widgets/user_payment_status_card.dart';
 import '../billing/calculate_bill.dart';
 
@@ -29,7 +29,6 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Filter tenants by search query
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       return tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
@@ -86,33 +85,27 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                         final latestPayment = widget.roomService
                             .getLatestPaymentForTenant(tenant);
 
-                        final int days = latestPayment == null
-                            ? 0
-                            : widget.roomService.daysLate(latestPayment);
-
-                        final bool isLate = latestPayment == null
-                            ? false
-                            : widget.roomService.isPaymentLate(latestPayment);
+                        final int days = latestPayment?.daysLate ?? 0;
+                        final bool isLate = latestPayment?.isLate ?? false;
 
                         return GestureDetector(
                           onTap: latestPayment == null
                               ? null
                               : () async {
-                                  final room = widget.roomService.getRoomById(
-                                    tenant.roomId!,
-                                  );
+                                  final room = widget.roomService
+                                      .getRoomById(tenant.roomId!);
                                   if (room == null) return;
 
                                   final double? total =
                                       await Navigator.push<double>(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => CalculateBill(
-                                            roomRent: room.rent,
-                                            name: tenant.name,
-                                          ),
-                                        ),
-                                      );
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => CalculateBill(
+                                        roomRent: room.rent,
+                                        name: tenant.name,
+                                      ),
+                                    ),
+                                  );
 
                                   if (total != null) {
                                     setState(() {
@@ -136,10 +129,8 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                                 },
                           child: UserPaymentStatusCard(
                             name: tenant.name,
-                            roomNumber:
-                                widget.roomService.getTenantRoomNumber(
-                                  tenant,
-                                ) ??
+                            roomNumber: widget.roomService
+                                    .getTenantRoomNumber(tenant) ??
                                 "-",
                             days: days,
                             isLate: isLate,

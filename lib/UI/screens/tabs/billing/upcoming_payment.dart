@@ -5,6 +5,7 @@ import '../../../widgets/user_payment_status_card.dart';
 
 class UpcomingPayment extends StatefulWidget {
   const UpcomingPayment({super.key, required this.roomService});
+
   final RoomService roomService;
 
   @override
@@ -26,7 +27,7 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       final payment = widget.roomService.getLatestPaymentForTenant(tenant);
       return payment != null &&
-          !widget.roomService.isPaymentLate(payment) && // use service method
+          !payment.isLate && // <- use Payment's getter
           tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
 
@@ -78,16 +79,12 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                         final payment = widget.roomService
                             .getLatestPaymentForTenant(tenant)!;
 
-                        final daysUntilDue = widget.roomService.daysUntilDue(
-                          payment,
-                        );
-
                         return UserPaymentStatusCard(
                           name: tenant.name,
-                          roomNumber:
-                              widget.roomService.getTenantRoomNumber(tenant) ??
+                          roomNumber: widget.roomService
+                                  .getTenantRoomNumber(tenant) ??
                               "-",
-                          days: daysUntilDue,
+                          days: payment.daysUntilDue, // <- use Payment's getter
                           isLate: false,
                         );
                       },

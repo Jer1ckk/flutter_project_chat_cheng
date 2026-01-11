@@ -13,6 +13,7 @@ class RoomService {
     required this.payments,
   });
 
+  // Move a tenant into a room and create the first payment
   void moveInTenant(Tenant tenant, Room room) {
     tenant.roomId = room.roomId;
     room.isOccupied = true;
@@ -31,6 +32,7 @@ class RoomService {
     if (!tenants.contains(tenant)) tenants.add(tenant);
   }
 
+  // Tenant leaves a room
   void tenantLeaves(Tenant tenant) {
     if (tenant.roomId == null) return;
 
@@ -40,6 +42,7 @@ class RoomService {
     tenant.roomId = null;
   }
 
+  // Process a payment and create the next month's payment
   void payPayment(Payment payment, DateTime paidDate, double totalAmount) {
     payment.amount = totalAmount;
     payment.markAsPaid(paidDate);
@@ -58,6 +61,7 @@ class RoomService {
     );
   }
 
+  // Get room by ID
   Room? getRoomById(String? roomId) {
     if (roomId == null) return null;
     try {
@@ -67,56 +71,62 @@ class RoomService {
     }
   }
 
+  // Get latest payment for a tenant
   Payment? getLatestPaymentForTenant(Tenant tenant) {
-    final tenantPayments = payments
-        .where((p) => p.tenantId == tenant.tenantId)
-        .toList();
+    final tenantPayments =
+        payments.where((p) => p.tenantId == tenant.tenantId).toList();
     if (tenantPayments.isEmpty) return null;
 
     tenantPayments.sort((a, b) => b.dueDate.compareTo(a.dueDate));
     return tenantPayments.first;
   }
 
+  // Get tenant's room number
   String? getTenantRoomNumber(Tenant tenant) {
     final room = getRoomById(tenant.roomId);
     return room?.roomNumber;
   }
 
+  // Revenue functions
   double getCurrentMonthExpectedRevenue() {
     final now = DateTime.now();
     return payments
-        .where(
-          (p) => p.dueDate.year == now.year && p.dueDate.month == now.month,
-        )
+        .where((p) => p.dueDate.year == now.year && p.dueDate.month == now.month)
         .fold(0.0, (sum, p) => sum + p.amount);
   }
 
   double getCurrentMonthCollectedRevenue() {
     final now = DateTime.now();
     return payments
-        .where(
-          (p) =>
-              p.dueDate.year == now.year &&
-              p.dueDate.month == now.month &&
-              p.paidDate != null,
-        )
+        .where((p) =>
+            p.dueDate.year == now.year &&
+            p.dueDate.month == now.month &&
+            p.paidDate != null)
         .fold(0.0, (sum, p) => sum + p.amount);
   }
 
-  bool isPaymentLate(Payment payment) {
-    return !payment.isPaid && payment.dueDate.isBefore(DateTime.now());
+  // Count upcoming and overdue payments
+  int getCurrentMonthUpcomingCount() {
+    final now = DateTime.now();
+    return payments
+        .where((p) =>
+            p.dueDate.year == now.year &&
+            p.dueDate.month == now.month &&
+            !p.isPaid)
+        .length;
   }
 
-  int daysLate(Payment payment) {
-    if (!isPaymentLate(payment)) return 0;
-    return DateTime.now().difference(payment.dueDate).inDays;
+  int getOverdueCount() {
+    final now = DateTime.now();
+    return payments.where((p) => !p.isPaid && p.dueDate.isBefore(now)).length;
   }
 
-  int daysUntilDue(Payment payment) {
-    if (isPaymentLate(payment)) return 0;
-    return payment.dueDate.difference(DateTime.now()).inDays;
+  // Available rooms
+  List<Room> getAvailableRooms() {
+    return rooms.where((room) => !room.isOccupied).toList();
   }
 
+  // Helper: calculate the same day next month
   DateTime _nextMonthDate(DateTime from) {
     int year = from.year;
     int month = from.month + 1;
@@ -131,26 +141,5 @@ class RoomService {
     if (day > maxDay) day = maxDay;
 
     return DateTime(year, month, day);
-  }
-
-  int getCurrentMonthUpcomingCount() {
-    final now = DateTime.now();
-    return payments
-        .where(
-          (p) =>
-              p.dueDate.year == now.year &&
-              p.dueDate.month == now.month &&
-              !p.isPaid,
-        )
-        .length;
-  }
-
-  int getOverdueCount() {
-    final now = DateTime.now();
-    return payments.where((p) => !p.isPaid && p.dueDate.isBefore(now)).length;
-  }
-
-  List<Room> getAvailableRooms() {
-    return rooms.where((room) => !room.isOccupied).toList();
   }
 }
