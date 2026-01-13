@@ -13,12 +13,11 @@ class RoomService {
     required this.payments,
   });
 
-  // Move a tenant into a room and create the first payment
   void moveInTenant(Tenant tenant, Room room) {
     tenant.roomId = room.roomId;
     room.isOccupied = true;
 
-    final firstDueDate = _nextMonthDate(DateTime.now());
+    final firstDueDate = _nextMonthDate(tenant.moveInDate);
 
     payments.add(
       Payment(
@@ -32,7 +31,6 @@ class RoomService {
     if (!tenants.contains(tenant)) tenants.add(tenant);
   }
 
-  // Tenant leaves a room
   void tenantLeaves(Tenant tenant) {
     if (tenant.roomId == null) return;
 
@@ -42,7 +40,6 @@ class RoomService {
     tenant.roomId = null;
   }
 
-  // Process a payment and create the next month's payment
   void payPayment(Payment payment, DateTime paidDate, double totalAmount) {
     payment.amount = totalAmount;
     payment.markAsPaid(paidDate);
@@ -61,7 +58,6 @@ class RoomService {
     );
   }
 
-  // Get room by ID
   Room? getRoomById(String? roomId) {
     if (roomId == null) return null;
     try {
@@ -71,10 +67,10 @@ class RoomService {
     }
   }
 
-  // Get latest payment for a tenant
   Payment? getLatestPaymentForTenant(Tenant tenant) {
-    final tenantPayments =
-        payments.where((p) => p.tenantId == tenant.tenantId).toList();
+    final tenantPayments = payments
+        .where((p) => p.tenantId == tenant.tenantId)
+        .toList();
     if (tenantPayments.isEmpty) return null;
 
     tenantPayments.sort((a, b) => b.dueDate.compareTo(a.dueDate));
@@ -91,29 +87,39 @@ class RoomService {
   double getCurrentMonthExpectedRevenue() {
     final now = DateTime.now();
     return payments
-        .where((p) => p.dueDate.year == now.year && p.dueDate.month == now.month)
+        .where(
+          (p) => p.dueDate.year == now.year && p.dueDate.month == now.month,
+        )
         .fold(0.0, (sum, p) => sum + p.amount);
   }
 
   double getCurrentMonthCollectedRevenue() {
     final now = DateTime.now();
     return payments
-        .where((p) =>
-            p.dueDate.year == now.year &&
-            p.dueDate.month == now.month &&
-            p.paidDate != null)
+        .where(
+          (p) =>
+              p.dueDate.year == now.year &&
+              p.dueDate.month == now.month &&
+              p.paidDate != null,
+        )
         .fold(0.0, (sum, p) => sum + p.amount);
   }
 
-  // Count upcoming and overdue payments
   int getCurrentMonthUpcomingCount() {
     final now = DateTime.now();
     return payments
-        .where((p) =>
-            p.dueDate.year == now.year &&
-            p.dueDate.month == now.month &&
-            !p.isPaid)
+        .where(
+          (p) =>
+              p.dueDate.year == now.year &&
+              p.dueDate.month == now.month &&
+              !p.isPaid,
+        )
         .length;
+  }
+
+  int getUpcomingCount() {
+    final now = DateTime.now();
+    return payments.where((p) => !p.isPaid && p.dueDate.isAfter(now)).length;
   }
 
   int getOverdueCount() {
@@ -121,12 +127,11 @@ class RoomService {
     return payments.where((p) => !p.isPaid && p.dueDate.isBefore(now)).length;
   }
 
-  // Available rooms
   List<Room> getAvailableRooms() {
     return rooms.where((room) => !room.isOccupied).toList();
   }
 
-  // Helper: calculate the same day next month
+
   DateTime _nextMonthDate(DateTime from) {
     int year = from.year;
     int month = from.month + 1;

@@ -29,6 +29,7 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Filter tenants by search query
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       return tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
@@ -85,27 +86,49 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                         final latestPayment = widget.roomService
                             .getLatestPaymentForTenant(tenant);
 
-                        final int days = latestPayment?.daysLate ?? 0;
-                        final bool isLate = latestPayment?.isLate ?? false;
+                        if (latestPayment == null) {
+                          return const SizedBox(); // Skip tenants with no payment
+                        }
+
+                        final now = DateTime.now();
+                        final dueDate = latestPayment.dueDate;
+
+                        // Calculate days dynamically
+                        final int days;
+                        final bool isLate;
+
+                        if (latestPayment.isPaid) {
+                          days = 0;
+                          isLate = false;
+                        } else if (dueDate.isBefore(now)) {
+                          // Overdue
+                          days = now.difference(dueDate).inDays;
+                          isLate = true;
+                        } else {
+                          // Upcoming
+                          days = dueDate.difference(now).inDays;
+                          isLate = false;
+                        }
 
                         return GestureDetector(
-                          onTap: latestPayment == null
+                          onTap: latestPayment.isPaid
                               ? null
                               : () async {
-                                  final room = widget.roomService
-                                      .getRoomById(tenant.roomId!);
+                                  final room = widget.roomService.getRoomById(
+                                    tenant.roomId!,
+                                  );
                                   if (room == null) return;
 
                                   final double? total =
                                       await Navigator.push<double>(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => CalculateBill(
-                                        roomRent: room.rent,
-                                        name: tenant.name,
-                                      ),
-                                    ),
-                                  );
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => CalculateBill(
+                                            roomRent: room.rent,
+                                            name: tenant.name,
+                                          ),
+                                        ),
+                                      );
 
                                   if (total != null) {
                                     setState(() {
@@ -129,8 +152,10 @@ class _TenantsBillingScreenState extends State<TenantsBillingScreen> {
                                 },
                           child: UserPaymentStatusCard(
                             name: tenant.name,
-                            roomNumber: widget.roomService
-                                    .getTenantRoomNumber(tenant) ??
+                            roomNumber:
+                                widget.roomService.getTenantRoomNumber(
+                                  tenant,
+                                ) ??
                                 "-",
                             days: days,
                             isLate: isLate,

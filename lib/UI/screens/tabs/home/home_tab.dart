@@ -15,7 +15,7 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final upcomingCount = roomService.getCurrentMonthUpcomingCount();
+    final upcomingCount = roomService.getUpcomingCount();
     final overdueCount = roomService.getOverdueCount();
 
     return Container(

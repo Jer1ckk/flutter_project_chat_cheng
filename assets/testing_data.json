@@ -10,7 +10,7 @@
       "roomId": "r2",
       "roomNumber": "A002",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r3",
@@ -22,7 +22,7 @@
       "roomId": "r4",
       "roomNumber": "A004",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r5",
@@ -40,7 +40,7 @@
       "roomId": "r7",
       "roomNumber": "A007",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r8",
@@ -58,7 +58,7 @@
       "roomId": "r10",
       "roomNumber": "A010",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r11",
@@ -76,7 +76,7 @@
       "roomId": "r13",
       "roomNumber": "A013",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r14",
@@ -88,7 +88,7 @@
       "roomId": "r15",
       "roomNumber": "A015",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r16",
@@ -100,7 +100,7 @@
       "roomId": "r17",
       "roomNumber": "A017",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r18",
@@ -112,7 +112,7 @@
       "roomId": "r19",
       "roomNumber": "A019",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r20",
@@ -130,7 +130,7 @@
       "roomId": "r22",
       "roomNumber": "A022",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r23",
@@ -154,7 +154,7 @@
       "roomId": "r26",
       "roomNumber": "A026",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r27",
@@ -166,7 +166,7 @@
       "roomId": "r28",
       "roomNumber": "A028",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r29",
@@ -178,13 +178,13 @@
       "roomId": "r30",
       "roomNumber": "A030",
       "rent": 50.0,
-      "isOccupied": true
+      "isOccupied": false
     },
     {
       "roomId": "r31",
       "roomNumber": "A031",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r32",
@@ -196,7 +196,7 @@
       "roomId": "r33",
       "roomNumber": "A033",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r34",
@@ -208,7 +208,7 @@
       "roomId": "r35",
       "roomNumber": "A035",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r36",
@@ -220,7 +220,7 @@
       "roomId": "r37",
       "roomNumber": "A037",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r38",
@@ -232,7 +232,7 @@
       "roomId": "r39",
       "roomNumber": "A039",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r40",
@@ -244,7 +244,7 @@
       "roomId": "r41",
       "roomNumber": "A041",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r42",
@@ -256,7 +256,7 @@
       "roomId": "r43",
       "roomNumber": "A043",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r44",
@@ -268,7 +268,7 @@
       "roomId": "r45",
       "roomNumber": "A045",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r46",
@@ -280,7 +280,7 @@
       "roomId": "r47",
       "roomNumber": "A047",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r48",
@@ -292,7 +292,7 @@
       "roomId": "r49",
       "roomNumber": "A049",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r50",
@@ -304,7 +304,7 @@
       "roomId": "r51",
       "roomNumber": "A051",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r52",
@@ -316,7 +316,7 @@
       "roomId": "r53",
       "roomNumber": "A053",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     },
     {
       "roomId": "r54",
@@ -328,7 +328,7 @@
       "roomId": "r55",
       "roomNumber": "A055",
       "rent": 50.0,
-      "isOccupied": false
+      "isOccupied": true
     }
   ],
   "tenants": [
@@ -352,7 +352,7 @@
       "dateOfBirth": "1995-02-02T00:00:00.000",
       "moveInDate": "2026-01-02T00:00:00.000",
       "reserveMoney": 510.0,
-      "roomId": "r2"
+      "roomId": "r3"
     },
     {
       "tenantId": "t3",
@@ -363,7 +363,7 @@
       "dateOfBirth": "1995-03-03T00:00:00.000",
       "moveInDate": "2026-01-03T00:00:00.000",
       "reserveMoney": 520.0,
-      "roomId": "r3"
+      "roomId": "r5"
     },
     {
       "tenantId": "t4",
@@ -374,7 +374,7 @@
       "dateOfBirth": "1995-04-04T00:00:00.000",
       "moveInDate": "2026-01-04T00:00:00.000",
       "reserveMoney": 530.0,
-      "roomId": "r4"
+      "roomId": "r6"
     },
     {
       "tenantId": "t5",
@@ -385,7 +385,7 @@
       "dateOfBirth": "1995-05-05T00:00:00.000",
       "moveInDate": "2026-01-05T00:00:00.000",
       "reserveMoney": 540.0,
-      "roomId": "r5"
+      "roomId": "r8"
     },
     {
       "tenantId": "t6",
@@ -396,7 +396,7 @@
       "dateOfBirth": "1995-06-06T00:00:00.000",
       "moveInDate": "2026-01-06T00:00:00.000",
       "reserveMoney": 550.0,
-      "roomId": "r6"
+      "roomId": "r9"
     },
     {
       "tenantId": "t7",
@@ -407,7 +407,7 @@
       "dateOfBirth": "1995-07-07T00:00:00.000",
       "moveInDate": "2026-01-07T00:00:00.000",
       "reserveMoney": 560.0,
-      "roomId": "r7"
+      "roomId": "r11"
     },
     {
       "tenantId": "t8",
@@ -418,7 +418,7 @@
       "dateOfBirth": "1995-08-08T00:00:00.000",
       "moveInDate": "2026-01-08T00:00:00.000",
       "reserveMoney": 570.0,
-      "roomId": "r8"
+      "roomId": "r12"
     },
     {
       "tenantId": "t9",
@@ -429,7 +429,7 @@
       "dateOfBirth": "1995-09-09T00:00:00.000",
       "moveInDate": "2026-01-09T00:00:00.000",
       "reserveMoney": 580.0,
-      "roomId": "r9"
+      "roomId": "r14"
     },
     {
       "tenantId": "t10",
@@ -440,7 +440,7 @@
       "dateOfBirth": "1995-10-10T00:00:00.000",
       "moveInDate": "2026-01-10T00:00:00.000",
       "reserveMoney": 590.0,
-      "roomId": "r10"
+      "roomId": "r16"
     },
     {
       "tenantId": "t11",
@@ -451,7 +451,7 @@
       "dateOfBirth": "1995-11-11T00:00:00.000",
       "moveInDate": "2026-01-11T00:00:00.000",
       "reserveMoney": 600.0,
-      "roomId": "r11"
+      "roomId": "r18"
     },
     {
       "tenantId": "t12",
@@ -462,7 +462,7 @@
       "dateOfBirth": "1995-12-12T00:00:00.000",
       "moveInDate": "2026-01-12T00:00:00.000",
       "reserveMoney": 610.0,
-      "roomId": "r12"
+      "roomId": "r20"
     },
     {
       "tenantId": "t13",
@@ -473,7 +473,7 @@
       "dateOfBirth": "1996-01-13T00:00:00.000",
       "moveInDate": "2026-01-13T00:00:00.000",
       "reserveMoney": 620.0,
-      "roomId": "r13"
+      "roomId": "r21"
     },
     {
       "tenantId": "t14",
@@ -484,7 +484,7 @@
       "dateOfBirth": "1996-02-14T00:00:00.000",
       "moveInDate": "2026-01-14T00:00:00.000",
       "reserveMoney": 630.0,
-      "roomId": "r14"
+      "roomId": "r23"
     },
     {
       "tenantId": "t15",
@@ -495,7 +495,7 @@
       "dateOfBirth": "1996-03-15T00:00:00.000",
       "moveInDate": "2026-01-15T00:00:00.000",
       "reserveMoney": 640.0,
-      "roomId": "r15"
+      "roomId": "r24"
     },
     {
       "tenantId": "t16",
@@ -506,7 +506,7 @@
       "dateOfBirth": "1996-04-16T00:00:00.000",
       "moveInDate": "2026-01-16T00:00:00.000",
       "reserveMoney": 650.0,
-      "roomId": "r16"
+      "roomId": "r25"
     },
     {
       "tenantId": "t17",
@@ -517,7 +517,7 @@
       "dateOfBirth": "1996-05-17T00:00:00.000",
       "moveInDate": "2026-01-17T00:00:00.000",
       "reserveMoney": 660.0,
-      "roomId": "r17"
+      "roomId": "r27"
     },
     {
       "tenantId": "t18",
@@ -528,7 +528,7 @@
       "dateOfBirth": "1996-06-18T00:00:00.000",
       "moveInDate": "2026-01-18T00:00:00.000",
       "reserveMoney": 670.0,
-      "roomId": "r18"
+      "roomId": "r29"
     },
     {
       "tenantId": "t19",
@@ -539,7 +539,7 @@
       "dateOfBirth": "1996-07-19T00:00:00.000",
       "moveInDate": "2026-01-19T00:00:00.000",
       "reserveMoney": 680.0,
-      "roomId": "r19"
+      "roomId": "r31"
     },
     {
       "tenantId": "t20",
@@ -550,7 +550,7 @@
       "dateOfBirth": "1996-08-20T00:00:00.000",
       "moveInDate": "2026-01-20T00:00:00.000",
       "reserveMoney": 690.0,
-      "roomId": "r20"
+      "roomId": "r33"
     },
     {
       "tenantId": "t21",
@@ -561,7 +561,7 @@
       "dateOfBirth": "1996-09-21T00:00:00.000",
       "moveInDate": "2026-01-21T00:00:00.000",
       "reserveMoney": 700.0,
-      "roomId": "r21"
+      "roomId": "r35"
     },
     {
       "tenantId": "t22",
@@ -572,7 +572,7 @@
       "dateOfBirth": "1996-10-22T00:00:00.000",
       "moveInDate": "2026-01-22T00:00:00.000",
       "reserveMoney": 710.0,
-      "roomId": "r22"
+      "roomId": "r37"
     },
     {
       "tenantId": "t23",
@@ -583,7 +583,7 @@
       "dateOfBirth": "1996-11-23T00:00:00.000",
       "moveInDate": "2026-01-23T00:00:00.000",
       "reserveMoney": 720.0,
-      "roomId": "r23"
+      "roomId": "r39"
     },
     {
       "tenantId": "t24",
@@ -594,7 +594,7 @@
       "dateOfBirth": "1996-12-24T00:00:00.000",
       "moveInDate": "2026-01-24T00:00:00.000",
       "reserveMoney": 730.0,
-      "roomId": "r24"
+      "roomId": "r41"
     },
     {
       "tenantId": "t25",
@@ -605,7 +605,7 @@
       "dateOfBirth": "1997-01-25T00:00:00.000",
       "moveInDate": "2026-01-25T00:00:00.000",
       "reserveMoney": 740.0,
-      "roomId": "r25"
+      "roomId": "r43"
     },
     {
       "tenantId": "t26",
@@ -616,7 +616,7 @@
       "dateOfBirth": "1997-02-26T00:00:00.000",
       "moveInDate": "2026-01-26T00:00:00.000",
       "reserveMoney": 750.0,
-      "roomId": "r26"
+      "roomId": "r45"
     },
     {
       "tenantId": "t27",
@@ -627,7 +627,7 @@
       "dateOfBirth": "1997-03-27T00:00:00.000",
       "moveInDate": "2026-01-27T00:00:00.000",
       "reserveMoney": 760.0,
-      "roomId": "r27"
+      "roomId": "r47"
     },
     {
       "tenantId": "t28",
@@ -638,7 +638,7 @@
       "dateOfBirth": "1997-04-28T00:00:00.000",
       "moveInDate": "2026-01-28T00:00:00.000",
       "reserveMoney": 770.0,
-      "roomId": "r28"
+      "roomId": "r49"
     },
     {
       "tenantId": "t29",
@@ -649,7 +649,7 @@
       "dateOfBirth": "1997-05-29T00:00:00.000",
       "moveInDate": "2026-01-29T00:00:00.000",
       "reserveMoney": 780.0,
-      "roomId": "r29"
+      "roomId": "r51"
     },
     {
       "tenantId": "t30",
@@ -660,7 +660,7 @@
       "dateOfBirth": "1997-06-30T00:00:00.000",
       "moveInDate": "2026-01-30T00:00:00.000",
       "reserveMoney": 790.0,
-      "roomId": "r30"
+      "roomId": "r53"
     }
   ],
   "payments": [
@@ -676,25 +676,25 @@
     {
       "paymentId": "p2",
       "tenantId": "t2",
-      "roomId": "r2",
+      "roomId": "r3",
       "amount": 50.0,
       "dueDate": "2026-01-06T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-06T10:00:00.000"
     },
     {
       "paymentId": "p3",
       "tenantId": "t3",
-      "roomId": "r3",
+      "roomId": "r5",
       "amount": 50.0,
       "dueDate": "2026-01-07T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-07T11:30:00.000"
     },
     {
       "paymentId": "p4",
       "tenantId": "t4",
-      "roomId": "r4",
+      "roomId": "r6",
       "amount": 50.0,
       "dueDate": "2026-01-08T00:00:00.000",
       "isPaid": false,
@@ -703,16 +703,16 @@
     {
       "paymentId": "p5",
       "tenantId": "t5",
-      "roomId": "r5",
+      "roomId": "r8",
       "amount": 50.0,
       "dueDate": "2026-01-09T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-09T09:45:00.000"
     },
     {
       "paymentId": "p6",
       "tenantId": "t6",
-      "roomId": "r6",
+      "roomId": "r9",
       "amount": 50.0,
       "dueDate": "2026-01-10T00:00:00.000",
       "isPaid": false,
@@ -721,25 +721,25 @@
     {
       "paymentId": "p7",
       "tenantId": "t7",
-      "roomId": "r7",
+      "roomId": "r11",
       "amount": 50.0,
       "dueDate": "2026-01-11T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-11T12:15:00.000"
     },
     {
       "paymentId": "p8",
       "tenantId": "t8",
-      "roomId": "r8",
+      "roomId": "r12",
       "amount": 50.0,
       "dueDate": "2026-01-12T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-12T14:00:00.000"
     },
     {
       "paymentId": "p9",
       "tenantId": "t9",
-      "roomId": "r9",
+      "roomId": "r14",
       "amount": 50.0,
       "dueDate": "2026-01-13T00:00:00.000",
       "isPaid": false,
@@ -748,16 +748,16 @@
     {
       "paymentId": "p10",
       "tenantId": "t10",
-      "roomId": "r10",
+      "roomId": "r16",
       "amount": 50.0,
       "dueDate": "2026-01-14T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-14T08:30:00.000"
     },
     {
       "paymentId": "p11",
       "tenantId": "t11",
-      "roomId": "r11",
+      "roomId": "r18",
       "amount": 50.0,
       "dueDate": "2026-01-15T00:00:00.000",
       "isPaid": false,
@@ -766,25 +766,25 @@
     {
       "paymentId": "p12",
       "tenantId": "t12",
-      "roomId": "r12",
+      "roomId": "r20",
       "amount": 50.0,
       "dueDate": "2026-01-16T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-16T13:00:00.000"
     },
     {
       "paymentId": "p13",
       "tenantId": "t13",
-      "roomId": "r13",
+      "roomId": "r21",
       "amount": 50.0,
       "dueDate": "2026-01-17T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-17T10:20:00.000"
     },
     {
       "paymentId": "p14",
       "tenantId": "t14",
-      "roomId": "r14",
+      "roomId": "r23",
       "amount": 50.0,
       "dueDate": "2026-01-18T00:00:00.000",
       "isPaid": false,
@@ -793,16 +793,16 @@
     {
       "paymentId": "p15",
       "tenantId": "t15",
-      "roomId": "r15",
+      "roomId": "r24",
       "amount": 50.0,
       "dueDate": "2026-01-19T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-19T11:50:00.000"
     },
     {
       "paymentId": "p16",
       "tenantId": "t16",
-      "roomId": "r16",
+      "roomId": "r25",
       "amount": 50.0,
       "dueDate": "2026-01-20T00:00:00.000",
       "isPaid": false,
@@ -811,25 +811,25 @@
     {
       "paymentId": "p17",
       "tenantId": "t17",
-      "roomId": "r17",
+      "roomId": "r27",
       "amount": 50.0,
       "dueDate": "2026-01-21T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-21T09:10:00.000"
     },
     {
       "paymentId": "p18",
       "tenantId": "t18",
-      "roomId": "r18",
+      "roomId": "r29",
       "amount": 50.0,
       "dueDate": "2026-01-22T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-22T15:00:00.000"
     },
     {
       "paymentId": "p19",
       "tenantId": "t19",
-      "roomId": "r19",
+      "roomId": "r31",
       "amount": 50.0,
       "dueDate": "2026-01-23T00:00:00.000",
       "isPaid": false,
@@ -838,16 +838,16 @@
     {
       "paymentId": "p20",
       "tenantId": "t20",
-      "roomId": "r20",
+      "roomId": "r33",
       "amount": 50.0,
       "dueDate": "2026-01-24T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-24T10:45:00.000"
     },
     {
       "paymentId": "p21",
       "tenantId": "t21",
-      "roomId": "r21",
+      "roomId": "r35",
       "amount": 50.0,
       "dueDate": "2026-01-25T00:00:00.000",
       "isPaid": false,
@@ -856,25 +856,25 @@
     {
       "paymentId": "p22",
       "tenantId": "t22",
-      "roomId": "r22",
+      "roomId": "r37",
       "amount": 50.0,
       "dueDate": "2026-01-26T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-26T12:30:00.000"
     },
     {
       "paymentId": "p23",
       "tenantId": "t23",
-      "roomId": "r23",
+      "roomId": "r39",
       "amount": 50.0,
       "dueDate": "2026-01-27T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-27T14:15:00.000"
     },
     {
       "paymentId": "p24",
       "tenantId": "t24",
-      "roomId": "r24",
+      "roomId": "r41",
       "amount": 50.0,
       "dueDate": "2026-01-28T00:00:00.000",
       "isPaid": false,
@@ -883,16 +883,16 @@
     {
       "paymentId": "p25",
       "tenantId": "t25",
-      "roomId": "r25",
+      "roomId": "r43",
       "amount": 50.0,
       "dueDate": "2026-01-29T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-29T09:00:00.000"
     },
     {
       "paymentId": "p26",
       "tenantId": "t26",
-      "roomId": "r26",
+      "roomId": "r45",
       "amount": 50.0,
       "dueDate": "2026-01-30T00:00:00.000",
       "isPaid": false,
@@ -901,25 +901,25 @@
     {
       "paymentId": "p27",
       "tenantId": "t27",
-      "roomId": "r27",
+      "roomId": "r47",
       "amount": 50.0,
       "dueDate": "2026-01-31T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-01-31T13:20:00.000"
     },
     {
       "paymentId": "p28",
       "tenantId": "t28",
-      "roomId": "r28",
+      "roomId": "r49",
       "amount": 50.0,
       "dueDate": "2026-02-01T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-02-01T11:40:00.000"
     },
     {
       "paymentId": "p29",
       "tenantId": "t29",
-      "roomId": "r29",
+      "roomId": "r51",
       "amount": 50.0,
       "dueDate": "2026-02-02T00:00:00.000",
       "isPaid": false,
@@ -928,11 +928,11 @@
     {
       "paymentId": "p30",
       "tenantId": "t30",
-      "roomId": "r30",
+      "roomId": "r53",
       "amount": 50.0,
       "dueDate": "2026-02-03T00:00:00.000",
-      "isPaid": false,
-      "paidDate": null
+      "isPaid": true,
+      "paidDate": "2026-02-03T10:10:00.000"
     }
   ]
 }

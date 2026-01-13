@@ -23,11 +23,11 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
 
   @override
   Widget build(BuildContext context) {
-    // Filter tenants with upcoming payments
+    // Filter tenants with upcoming payments and search query
     final filteredTenants = widget.roomService.tenants.where((tenant) {
       final payment = widget.roomService.getLatestPaymentForTenant(tenant);
       return payment != null &&
-          !payment.isLate && // <- use Payment's getter
+          !payment.isLate &&
           tenant.name.toLowerCase().contains(searchQuery);
     }).toList();
 
@@ -69,7 +69,7 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                   ? const Center(
                       child: Text(
                         "No upcoming payments",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     )
                   : ListView.builder(
@@ -77,14 +77,16 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                       itemBuilder: (context, index) {
                         final tenant = filteredTenants[index];
                         final payment = widget.roomService
-                            .getLatestPaymentForTenant(tenant)!;
+                            .getLatestPaymentForTenant(tenant);
+
+                        if (payment == null) return const SizedBox();
 
                         return UserPaymentStatusCard(
                           name: tenant.name,
                           roomNumber: widget.roomService
                                   .getTenantRoomNumber(tenant) ??
                               "-",
-                          days: payment.daysUntilDue, // <- use Payment's getter
+                          days: payment.daysUntilDue,
                           isLate: false,
                         );
                       },
